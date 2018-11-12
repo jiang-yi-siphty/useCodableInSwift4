@@ -286,13 +286,16 @@ struct Student: Codable {
         // 创建一个对字典处理用的容器 (KeyedDecodingContainer)，并指定json中key和属性名的规则
         let keyedContainer = try container.nestedContainer(keyedBy: MetaCodingKeys.self, forKey: .meta)
         let grossScore = try keyedContainer.decode(Int.self, forKey: .grossScore)
-        var unkeyedContainer = try keyedContainer.nestedUnkeyedContainer(forKey: .scores)
-        var scores = [Float]()
-        while !unkeyedContainer.isAtEnd {
-            let proportion = try unkeyedContainer.decode(Float.self)
-            let score = proportion * Float(grossScore)
-            scores.append(score)
-        }
+        let scores = try keyedContainer.decode([Float].self, forKey: .scores)
+        
+        //原引另一篇简书博文， 一下内容为二逼青年处理JSON array的方式。
+//        var unkeyedContainer = try keyedContainer.nestedUnkeyedContainer(forKey: .scores)
+//        var scores = [Float]()
+//        while !unkeyedContainer.isAtEnd {
+//            let proportion = try unkeyedContainer.decode(Float.self)
+//            let score = proportion * Float(grossScore)
+//            scores.append(score)
+//        }
         self.init(name: name, age: age, bornIn: bornIn, grossScore: grossScore, scores: scores)
     }
 

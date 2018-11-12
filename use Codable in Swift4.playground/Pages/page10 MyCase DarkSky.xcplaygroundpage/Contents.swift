@@ -1777,13 +1777,18 @@ struct DarkSky: Codable {
         
         init(from decoder: Decoder) throws{
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .sources)
-            var sources = [String]()
-            while !unkeyedContainer.isAtEnd {
-                let source = try unkeyedContainer.decode(String.self)
-                sources.append(source)
-            }
-            self.sources = sources
+            //🤦‍♂️二逼青年
+//            var unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .sources)
+//            var sources = [String]()
+//            while !unkeyedContainer.isAtEnd {
+//                let source = try unkeyedContainer.decode(String.self)
+//                sources.append(source)
+//            }
+//            self.sources = sources
+            
+            //👨‍🎤文艺青年
+            sources = try container.decode([String].self, forKey: .sources)
+            
             units = try container.decode(String.self, forKey: .units)
             nearestStation = try container.decode(Double.self, forKey: .nearestStation)
         }
